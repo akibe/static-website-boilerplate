@@ -1,3 +1,5 @@
+/* eslint global-require: 0, import/newline-after-import: 0 */
+
 const gulp = require('gulp')
 const runSequence = require('run-sequence')
 
@@ -27,16 +29,16 @@ const puglint = require('gulp-pug-lint')
 // Lint
 gulp.task('html:lint', () => {
   return gulp.src('src/**/*.pug')
-    .pipe(plumber({errorHandler: notify.onError(errMsg)}))
+    .pipe(plumber({ errorHandler: notify.onError(errMsg) }))
     .pipe(puglint())
     .pipe(plumber.stop())
 })
 // Develop
 gulp.task('html:develop', ['html:lint'], () => {
   return gulp.src('src/*.pug')
-    .pipe(plumber({errorHandler: notify.onError(errMsg)}))
+    .pipe(plumber({ errorHandler: notify.onError(errMsg) }))
     .pipe(pug().on('error', notify.onError(errMsg)))
-    .pipe(revReplace({manifest: gulp.src(manifest)}))
+    .pipe(revReplace({ manifest: gulp.src(manifest) }))
     .pipe(plumber.stop())
     .pipe(gulp.dest('dist'))
 })
@@ -48,7 +50,7 @@ gulp.task('html:serve', ['html:develop'], () => {
 gulp.task('html:build', ['html:lint'], () => {
   return gulp.src('src/*.pug')
     .pipe(pug())
-    .pipe(revReplace({manifest: gulp.src(manifest)}))
+    .pipe(revReplace({ manifest: gulp.src(manifest) }))
     .pipe(gulp.dest('dist'))
 })
 
@@ -60,24 +62,24 @@ const concatCss = require('gulp-concat-css')
 // Lint
 gulp.task('style:lint', () => {
   return gulp.src('src/**/*.css')
-    .pipe(plumber({errorHandler: notify.onError(errMsg)}))
+    .pipe(plumber({ errorHandler: notify.onError(errMsg) }))
     .pipe(stylelint({
       reporters: [
-        {formatter: 'string', console: true}
-      ]
+        { formatter: 'string', console: true },
+      ],
     }))
     .pipe(plumber.stop())
 })
 // Develop
 gulp.task('style:develop', ['style:lint'], () => {
-    .pipe(plumber({errorHandler: notify.onError(errMsg)}))
   return gulp.src(['src/styles/index.css', 'src/styles/*.css'])
+    .pipe(plumber({ errorHandler: notify.onError(errMsg) }))
     .pipe(postcss([
       require('postcss-import'),
-      require('postcss-cssnext')
+      require('postcss-cssnext'),
     ]))
     .pipe(concatCss('index.css'))
-    .pipe(revReplace({manifest: gulp.src(manifest)}))
+    .pipe(revReplace({ manifest: gulp.src(manifest) }))
     .pipe(plumber.stop())
     .pipe(gulp.dest('dist'))
 })
@@ -86,15 +88,15 @@ gulp.task('style:serve', ['style:develop'], () => {
   return gulp.watch(['src/**/*.css', 'dist/assets/*'], ['style:develop'])
 })
 // Build
-  .pipe(postcss([
-    require('postcss-import'),
-    require('postcss-cssnext')
-  ]))
-  .pipe(revReplace({manifest: gulp.src(manifest)}))
-  .pipe(gulp.dest('dist'))
 gulp.task('style:build', ['style:lint'], () => {
   return gulp.src(['src/styles/index.css', 'src/styles/*.css'])
+    .pipe(postcss([
+      require('postcss-import'),
+      require('postcss-cssnext'),
+    ]))
     .pipe(concatCss('index.css'))
+    .pipe(revReplace({ manifest: gulp.src(manifest) }))
+    .pipe(gulp.dest('dist'))
 })
 
 // ============================== Script
@@ -134,7 +136,6 @@ gulp.task('script:build', ['script:lint'], () => {
 // ============================== Image
 const cached = require('gulp-cached')
 const imagemin = require('gulp-imagemin')
-const pngcrush = require('imagemin-pngcrush')
 const svgmin = require('gulp-svgmin')
 const svgstore = require('gulp-svgstore')
 const cheerio = require('gulp-cheerio')
@@ -166,11 +167,11 @@ gulp.task('icon:build', () => {
     .pipe(svgmin())
     .pipe(svgstore({ inlineSvg: true }))
     .pipe(cheerio({
-      run: function ($) {
+      run($) {
         $('svg').attr('style', 'display:none')
         $('[fill]').removeAttr('fill')
       },
-      parserOptions: { xmlMode: true }
+      parserOptions: { xmlMode: true },
     }))
     .pipe(gulp.dest('dist/assets'))
 })
@@ -191,13 +192,13 @@ gulp.task('serve', (done) => {
     done)
 })
 gulp.task('serve:rebuild', () => {
-  return gulp.watch('dist/*', {readDelay: 1000}).on('change', bs.reload)
+  return gulp.watch('dist/*', { readDelay: 1000 }).on('change', bs.reload)
 })
 gulp.task('serve:browser', () => {
   return bs.init({
     server: {
-      baseDir: ['dist']
-    }
+      baseDir: ['dist'],
+    },
   })
 })
 

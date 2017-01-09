@@ -70,8 +70,8 @@ gulp.task('style:lint', () => {
 })
 // Develop
 gulp.task('style:develop', ['style:lint'], () => {
-  return gulp.src(['src/index.css', 'src/styles/*.css'])
     .pipe(plumber({errorHandler: notify.onError(errMsg)}))
+  return gulp.src(['src/styles/index.css', 'src/styles/*.css'])
     .pipe(postcss([
       require('postcss-import'),
       require('postcss-cssnext')
@@ -86,15 +86,17 @@ gulp.task('style:serve', ['style:develop'], () => {
   return gulp.watch(['src/**/*.css', 'dist/assets/*'], ['style:develop'])
 })
 // Build
-gulp.task('style:build', ['style:lint'], () =>
-  gulp.src(['src/index.css', 'src/styles/*.css'])
   .pipe(postcss([
     require('postcss-import'),
     require('postcss-cssnext')
   ]))
   .pipe(revReplace({manifest: gulp.src(manifest)}))
   .pipe(gulp.dest('dist'))
-)
+gulp.task('style:build', ['style:lint'], () => {
+  return gulp.src(['src/styles/index.css', 'src/styles/*.css'])
+    .pipe(concatCss('index.css'))
+})
+
 // ============================== Script
 const webpack = require('webpack-stream')
 const eslint = require('gulp-eslint')

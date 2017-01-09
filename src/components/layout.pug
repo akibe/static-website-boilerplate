@@ -1,6 +1,6 @@
 - const siteName = 'SITENAME'
 - const siteDesc = 'DESCRIPTION'
-- const googleAnalyticsSiteID = 'UA-XXXXX-Y'
+- const googleAnalyticsSiteID = 'UA-NNNNNN-N'
 
 doctype html
 block vars
@@ -35,8 +35,16 @@ html(lang="ja")
       .barba-container
         block main
     include footer
-    script(src="/index.js")
     script.
       window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
-      ga('create','#{googleAnalyticsSiteID}','auto');ga('send','pageview')
-    script(src="https://www.google-analytics.com/analytics.js" async defer)
+      ga('create','#{googleAnalyticsSiteID}','auto');
+      ga('require', 'cleanUrlTracker', {
+        stripQuery: true,
+        queryDimensionIndex: 1,
+        indexFilename: 'index.html',
+        trailingSlash: 'remove'
+      });
+      ga('require', 'urlChangeTracker');
+      ga('send','pageview');
+    script(src="https://www.google-analytics.com/analytics.js" async)
+    script(src="/index.js" async)

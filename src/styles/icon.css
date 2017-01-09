@@ -1,0 +1,26 @@
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.5em;
+
+  & svg {
+    width: 0.7em;
+    height: 0.7em;
+    fill: #fff;
+  }
+
+  &.facebook {
+    background-color: #3b5998;
+  }
+
+  &.twitter {
+    background-color: #00aced;
+  }
+
+  &.instagram {
+    background-color: #bc2a8d;
+  }
+}

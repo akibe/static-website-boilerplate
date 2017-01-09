@@ -1,0 +1,10 @@
+{
+  "disallowDuplicateAttributes": true,
+  "disallowMultipleLineBreaks": true,
+  "disallowSpacesInsideAttributeBrackets": true,
+  "requireLowerCaseAttributes": true,
+  "requireLowerCaseTags": true,
+  "requireSpacesInsideAttributeBrackets": true,
+  "requireStrictEqualityOperators": true,
+  "validateAttributeQuoteMarks": "\""
+}

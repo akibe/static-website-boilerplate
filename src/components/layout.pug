@@ -1,0 +1,41 @@
+- const siteName = 'SITENAME'
+- const siteDesc = 'DESCRIPTION'
+- const googleAnalyticsSiteID = 'UA-XXXXX-Y'
+
+doctype html
+block vars
+- const siteTitle = (title ? title + ' | ' : '') + siteName
+- const siteType = title ? 'article' : 'website'
+- const sitePrefix = `og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# ${siteType}: http://ogp.me/ns/${siteType}#`
+
+html(lang="ja")
+  head(prefix=sitePrefix)
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    title!= siteTitle
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="apple-touch-icon" href="apple-touch-icon.png")
+
+    meta(name="title" content=siteTitle)
+    meta(name="description" content=desc || siteDesc)
+    meta(name="keywords" content="")
+    meta(property="og:type" content=siteType)
+    meta(property="og:title" content=siteTitle)
+    meta(property="og:description" content=desc || siteDesc)
+    meta(property="og:image" content="")
+    meta(property="og:url" content="")
+    meta(property="og:site_name" content=siteName)
+    meta(name="twitter:card" content="summary")
+    meta(name="twitter:site" content="@twitter_acount")
+
+    link(rel="stylesheet" href="/index.css")
+  body
+    include header
+    main
+      block main
+    include footer
+    script(src="/index.js")
+    script.
+      window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+      ga('create','#{googleAnalyticsSiteID}','auto');ga('send','pageview')
+    script(src="https://www.google-analytics.com/analytics.js" async defer)

@@ -1,0 +1,21 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "custom-property-no-outside-root": true,
+    "declaration-block-no-duplicate-properties": [true, {"ignore": "consecutive-duplicates"}],
+    "declaration-block-semicolon-newline-before": "never-multi-line",
+    "declaration-no-important": true,
+    "font-family-name-quotes": "always-unless-keyword",
+    "function-url-quotes": "always",
+    "root-no-standard-properties": true,
+    "rule-nested-empty-line-before": "always",
+    "rule-non-nested-empty-line-before": "always",
+    "string-quotes": "single",
+    "selector-no-universal": true,
+    "selector-no-vendor-prefix": true,
+    "selector-pseudo-class-no-unknown": [true, {"ignorePseudoClasses": ["local", "global"]}],
+    "selector-pseudo-element-colon-notation": "single",
+    "selector-root-no-composition": true,
+    "time-no-imperceptible": true
+  }
+}

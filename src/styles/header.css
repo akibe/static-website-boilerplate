@@ -1,0 +1,12 @@
+header {
+
+  & .title {
+    text-align: center;
+    margin: 20px 0 0;
+
+    & img {
+      width: 300px;
+      height: 60px;
+    }
+  }
+}

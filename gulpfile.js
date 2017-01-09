@@ -95,6 +95,39 @@ gulp.task('style:build', ['style:lint'], () =>
   .pipe(revReplace({manifest: gulp.src(manifest)}))
   .pipe(gulp.dest('dist'))
 )
+// ============================== Script
+const webpack = require('webpack-stream')
+const eslint = require('gulp-eslint')
+const named = require('vinyl-named')
+// ------------------------------
+// Lint
+gulp.task('script:lint', () => {
+  return gulp.src('src/**/*.js')
+    .pipe(plumber({ errorHandler: notify.onError(errMsg) }))
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(plumber.stop())
+})
+// Develop
+gulp.task('script:develop', ['script:lint'], () => {
+  return gulp.src(['src/scripts/index.js'])
+    .pipe(plumber({ errorHandler: notify.onError(errMsg) }))
+    .pipe(named())
+    .pipe(webpack(require('./webpack.dev.config.js')))
+    .pipe(plumber.stop())
+    .pipe(gulp.dest('dist'))
+})
+// Serve
+gulp.task('script:serve', ['script:develop'], () => {
+  return gulp.watch(['src/**/*.js'], ['script:develop'])
+})
+// Build
+gulp.task('script:build', ['script:lint'], () => {
+  return gulp.src(['src/scripts/index.js'])
+    .pipe(named())
+    .pipe(webpack(require('./webpack.prd.config.js')))
+    .pipe(gulp.dest('dist'))
+})
 
 // ============================== Image
 const cached = require('gulp-cached')
@@ -149,6 +182,7 @@ gulp.task('serve', (done) => {
     'clean',
     'image:serve',
     'style:serve',
+    'script:serve',
     'html:serve',
     'serve:browser',
     'serve:rebuild',
@@ -172,6 +206,7 @@ gulp.task('build', (done) => {
     'clean',
     'image:build',
     'style:build',
+    'script:build',
     'html:build',
     done)
 })

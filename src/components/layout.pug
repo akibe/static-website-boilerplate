@@ -31,8 +31,9 @@ html(lang="ja")
     link(rel="stylesheet" href="/index.css")
   body
     include header
-    main
-      block main
+    main#barba-wrapper
+      .barba-container
+        block main
     include footer
     script(src="/index.js")
     script.
